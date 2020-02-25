@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace robote13\user_account\entities;
+namespace RobotE13\UserAccount\Entities;
 
 /**
  * Description of Contact
@@ -15,4 +15,5 @@ namespace robote13\user_account\entities;
  */
 class Contact
 {
+
 }

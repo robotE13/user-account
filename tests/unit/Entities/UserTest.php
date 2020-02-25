@@ -1,8 +1,8 @@
 <?php
 
-namespace tests\unit\entities;
+namespace tests\unit\Entities;
 
-use robote13\user_account\entities\Id;
+use RobotE13\UserAccount\Entities\Id;
 
 class UserTest extends \Codeception\Test\Unit
 {
@@ -26,6 +26,7 @@ class UserTest extends \Codeception\Test\Unit
     {
         $user = (new \Helper\UserBuilder('pass123'))->withUid($uid = Id::next())->create();
 
+        expect('Новый пользователь создается не подтвержденным', $user->isConfirmed())->false();
         expect('UUID созданного пользователя совпадает с заданным UUID', $user->getUid()->isEqualTo($uid))->true();
         expect('Текущий пароль: "pass123"', $user->getPassword()->verify('pass123'))->true();
         expect('Дата регистрации - неизменяемый объект', $user->getRegisteredOn())->isInstanceOf(\DateTimeImmutable::class);

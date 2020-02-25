@@ -1,6 +1,6 @@
 <?php
 
-namespace robote13\user_account\entities;
+namespace RobotE13\UserAccount\Entities;
 
 /**
  * Description of User
@@ -14,7 +14,7 @@ class User
     private $registrationEmail;
     private $password;
     private $isConfirmed;
-    private $contacts;
+    private $contacts = [];
     private $registeredOn;
 
     public function __construct(Id $uid, string $registrationEmail, Password $password)

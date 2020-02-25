@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace robote13\user_account\entities;
+namespace RobotE13\UserAccount\Entities;
 
 use Webmozart\Assert\Assert;
 use Ramsey\Uuid\Uuid;
