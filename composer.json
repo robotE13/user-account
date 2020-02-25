@@ -1,0 +1,28 @@
+{
+    "name": "robote13/user-account",
+    "description": "User accounts for web applications",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgenii Dudal",
+            "email": "wolfstrace@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "ramsey/uuid": "^3.9.3",
+        "webmozart/assert": "^1.7.0"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "codeception/verify": "^1.3.0",
+        "codeception/specify": "^1.3.0"
+    },
+    "autoload": {
+        "psr-4": {"robote13\\user_account\\": "src"}
+    }
+}
