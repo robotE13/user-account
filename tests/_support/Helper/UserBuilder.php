@@ -15,17 +15,19 @@ use RobotE13\UserAccount\Entities\{
 class UserBuilder
 {
 
+    const DEFAULT_PASSWORD = 'Asd5%_password';
+
     private $uuid;
     private $registrationEmail;
     private $password;
     private $isConfirmed;
     private $registeredOn;
 
-    public function __construct(string $password)
+    public function __construct()
     {
         $this->uuid = Id::next();
         $this->registrationEmail = 'user1@usermail.com';
-        $this->password = new \RobotE13\UserAccount\Entities\Password($password);
+        $this->password = new \RobotE13\UserAccount\Entities\Password(self::DEFAULT_PASSWORD);
     }
 
     public function withUid(Id $uid)

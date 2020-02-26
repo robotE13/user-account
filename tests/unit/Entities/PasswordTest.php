@@ -25,38 +25,39 @@ class PasswordTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
-        $this->user = (new \Helper\UserBuilder('old_password'))->create();
+        $this->user = (new \Helper\UserBuilder())->create();
     }
 
-    protected function _after()
+    public function testCannotSetAPasswordLessThanEight()
     {
-
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('The password must be at least 8 characters long.');
+        new Password('%4Az');
     }
 
     public function testChange()
     {
         $this->specify('Correct old password', function () {
-            $newPassword = new Password('new_password');
-            expect('Пароль сменен успешно', $this->user->changePassword('old_password', $newPassword))->true();
-            expect('Пароль сменился на: "new_password"', $this->user->getPassword()->verify('new_password'))->true();
+            $newPassword = new Password('nEw_password');
+            expect('Пароль сменен успешно', $this->user->changePassword(\Helper\UserBuilder::DEFAULT_PASSWORD, $newPassword))->true();
+            expect('Пароль сменился на: "new_password"', $this->user->getPassword()->verify('nEw_password'))->true();
         });
 
         $this->specify('Not correct old password', function () {
-            $newPassword = new Password('new_password');
+            $newPassword = new Password('nEw_password');
             expect('Пароль был сменен', $this->user->changePassword('wrong_old_password', $newPassword))->false();
-            expect('Пароль осталcя: "old_password"', $this->user->getPassword()->verify('old_password'))->true();
+            expect('Пароль осталcя: ' . \Helper\UserBuilder::DEFAULT_PASSWORD, $this->user->getPassword()->verify(\Helper\UserBuilder::DEFAULT_PASSWORD))->true();
         });
     }
 
     public function testReset()
     {
-
         $this->specify('Success', function () {
-            $newPassword = new Password('new_password');
+            $newPassword = new Password('nEw_password');
 
-            expect('Текущий пароль: "old_password"', $this->user->getPassword()->verify('old_password'))->true();
+            expect('Текущий пароль: ' . \Helper\UserBuilder::DEFAULT_PASSWORD, $this->user->getPassword()->verify(\Helper\UserBuilder::DEFAULT_PASSWORD))->true();
             $this->user->resetPassword($newPassword);
-            expect('Пароль сменился на "new_password"', $this->user->getPassword()->verify('new_password'))->true();
+            expect('Пароль сменился на "nEw_password"', $this->user->getPassword()->verify('nEw_password'))->true();
         });
     }
 

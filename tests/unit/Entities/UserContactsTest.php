@@ -12,19 +12,9 @@ class UserContactsTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
-    /*
-      protected function _before()
-      {
-      }
-
-      protected function _after()
-      {
-      }
-     */
-
     public function testAdd(): void
     {
-        $user = (new \Helper\UserBuilder('111'))->create();
+        $user = (new \Helper\UserBuilder())->create();
         $user->addContact($contact = new Contact('email','email'));
 
         expect('Добавлен 1 контакт', $user->getContacts()->getAll())->count(1);
@@ -32,7 +22,7 @@ class UserContactsTest extends \Codeception\Test\Unit
 
     public function testRemove(): void
     {
-        $user = (new \Helper\UserBuilder('111'))->create();
+        $user = (new \Helper\UserBuilder())->create();
 
         $user->addContact($contact = new Contact('email','email'));
 
@@ -43,7 +33,7 @@ class UserContactsTest extends \Codeception\Test\Unit
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectErrorMessage('Contact with index 111 not found.');
-        $user = (new \Helper\UserBuilder('111'))->create();
+        $user = (new \Helper\UserBuilder())->create();
 
         $user->removeContact(111);
     }
