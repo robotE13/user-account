@@ -4,7 +4,7 @@ namespace tests\unit\Entities;
 
 use RobotE13\UserAccount\Entities\Contact\Contact;
 
-class UserContactsTest extends \Codeception\Test\Unit
+class ContactsTest extends \Codeception\Test\Unit
 {
 
     /**
@@ -15,7 +15,7 @@ class UserContactsTest extends \Codeception\Test\Unit
     public function testAdd(): void
     {
         $user = (new \Helper\UserBuilder())->create();
-        $user->addContact($contact = new Contact('email','email'));
+        $user->addContact($contact = new Contact('email', 'email'));
 
         expect('Добавлен 1 контакт', $user->getContacts()->getAll())->count(1);
     }
@@ -24,9 +24,11 @@ class UserContactsTest extends \Codeception\Test\Unit
     {
         $user = (new \Helper\UserBuilder())->create();
 
-        $user->addContact($contact = new Contact('email','email'));
-
-        $user->removeContact(0);
+        $user->addContact($contact = new Contact('email', 'email'));
+        $user->addContact(new Contact('phone', '+781'));
+        $user->removeContact(1);
+        expect('После удаления осталя 1 контакт', $user->getContacts()->getAll())->count(1);
+        expect('Оставшийся контакт - email', $user->getContacts()->getAll())->same([$contact]);
     }
 
     public function testRemoveNotExist(): void
