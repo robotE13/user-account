@@ -2,6 +2,11 @@
 
 namespace RobotE13\UserAccount\Entities;
 
+use RobotE13\UserAccount\Entities\Contact\{
+    Contact,
+    Contacts
+};
+
 /**
  * Description of User
  *
@@ -14,14 +19,22 @@ class User
     private $registrationEmail;
     private $password;
     private $isConfirmed;
-    private $contacts = [];
+    private $contacts;
     private $registeredOn;
 
-    public function __construct(Id $uid, string $registrationEmail, Password $password)
+    /**
+     *
+     * @param Id $uid
+     * @param string $registrationEmail
+     * @param Password $password
+     * @param array $contacts
+     */
+    public function __construct(Id $uid, string $registrationEmail, Password $password, $contacts = [])
     {
         $this->uid = $uid;
         $this->registrationEmail = $registrationEmail;
         $this->password = $password;
+        $this->contacts = new Contacts($contacts);
         $this->isConfirmed = false;
         $this->registeredOn = new \DateTimeImmutable();
     }
@@ -55,12 +68,22 @@ class User
         $this->password = $password;
     }
 
+    /**
+     * Добавление нового контакта.
+     * @param Contact $contact
+     */
     public function addContact(Contact $contact)
     {
+        $this->contacts->add($contact);
     }
 
-    public function removeContact(Contact $contact)
+    /**
+     * Удаление контакта.
+     * @param type $index
+     */
+    public function removeContact($index)
     {
+        $this->contacts->remove($index);
     }
 
     // Getters
@@ -90,9 +113,10 @@ class User
     }
 
     /**
-     * @return Contact[]
+     * Возвращает типизированную коллекцию контактов.
+     * @return Contacts
      */
-    public function getContacts(): array
+    public function getContacts(): Contacts
     {
         return $this->contacts;
     }

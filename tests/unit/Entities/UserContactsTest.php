@@ -2,7 +2,7 @@
 
 namespace tests\unit\Entities;
 
-use RobotE13\UserAccount\Entities\Contact;
+use RobotE13\UserAccount\Entities\Contact\Contact;
 
 class UserContactsTest extends \Codeception\Test\Unit
 {
@@ -25,25 +25,27 @@ class UserContactsTest extends \Codeception\Test\Unit
     public function testAdd(): void
     {
         $user = (new \Helper\UserBuilder('111'))->create();
-        $user->addContact($contact = new Contact());
+        $user->addContact($contact = new Contact('email','email'));
 
-        expect('Добавлен 1 контакт', $user->getContacts())->count(1);
+        expect('Добавлен 1 контакт', $user->getContacts()->getAll())->count(1);
     }
 
     public function testRemove(): void
     {
         $user = (new \Helper\UserBuilder('111'))->create();
 
-        $user->addContact($contact = new Contact());
+        $user->addContact($contact = new Contact('email','email'));
 
-        $user->removeContact($contact);
+        $user->removeContact(0);
     }
 
     public function testRemoveNotExist(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectErrorMessage('Contact with index 111 not found.');
         $user = (new \Helper\UserBuilder('111'))->create();
 
-        $user->removeContact($contact = new Contact());
+        $user->removeContact(111);
     }
 
 }
