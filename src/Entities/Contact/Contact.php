@@ -16,6 +16,9 @@ namespace RobotE13\UserAccount\Entities\Contact;
 class Contact
 {
 
+    const TYPE_EMAIL = 'email';
+    const TYPE_PHONE = 'phone';
+
     private $type;
     private $value;
 

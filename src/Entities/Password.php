@@ -57,6 +57,9 @@ class Password
         } elseif(preg_match('/^[a-z\d\W_]+$/u', $password))
         {
             return new CheckResult(false, 'The password must contain at least one uppercase character.');
+        }elseif(preg_match('/^[A-Za-z]+$/u', $password))
+        {
+            return new CheckResult(false, 'The password must contain at least one digit or special character.');
         }
         return new CheckResult(true);
     }
