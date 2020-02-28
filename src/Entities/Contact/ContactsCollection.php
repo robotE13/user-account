@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
  *
  * @author robotR13
  */
-class Contacts
+class ContactsCollection
 {
     private $contacts = [];
 

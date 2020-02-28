@@ -4,7 +4,7 @@ namespace RobotE13\UserAccount\Entities;
 
 use RobotE13\UserAccount\Entities\Contact\{
     Contact,
-    Contacts
+    ContactsCollection
 };
 
 /**
@@ -34,7 +34,7 @@ class User
         $this->uid = $uid;
         $this->registrationEmail = $registrationEmail;
         $this->password = $password;
-        $this->contacts = new Contacts($contacts);
+        $this->contacts = new ContactsCollection($contacts);
         $this->isConfirmed = false;
         $this->registeredOn = new \DateTimeImmutable();
     }
@@ -86,7 +86,10 @@ class User
         $this->contacts->remove($index);
     }
 
+    //////////////////////
     // Getters
+    //////////////////////
+
     public function getUid(): Id
     {
         return $this->uid;
@@ -114,9 +117,9 @@ class User
 
     /**
      * Возвращает типизированную коллекцию контактов.
-     * @return Contacts
+     * @return ContactsCollection
      */
-    public function getContacts(): Contacts
+    public function getContacts(): ContactsCollection
     {
         return $this->contacts;
     }

@@ -16,27 +16,23 @@ use Webmozart\Assert\Assert;
 class Status
 {
 
-    const UNCONFIRMED = 1;
-    const ACTIVE = 2;
-    const SUSPENDED = 3;
-    const ARCHIVED = 4;
-
     private $value;
+    private $possibleStates;
 
-    public function __construct(int $value)
+    public function __construct(int $value, PossibleState $possibleStates)
     {
-        Assert::keyExists(static::getAllExisting(), $value);
+        Assert::true($possibleStates->isValidValue($value));
         $this->value = $value;
+        $this->possibleStates = $possibleStates;
     }
 
-    public static function getAllExisting()
+    /**
+     * Get an object that represents a list of valid status values.
+     * @return PossibleState
+     */
+    public function getPossibleStates(): PossibleState
     {
-        return[
-            self::UNCONFIRMED => 'Unconfirmed',
-            self::ACTIVE => 'Active',
-            self::SUSPENDED => 'Suspended',
-            self::ARCHIVED => 'Archived'
-        ];
+        return $this->possibleStates;
     }
 
     public function getValue(): int
@@ -46,7 +42,7 @@ class Status
 
     public function getTextValue(): string
     {
-        return static::getAllExisting()[$this->value];
+        return $this->possibleStates->getTextValue($this->value);
     }
 
 }
