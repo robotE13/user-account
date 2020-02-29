@@ -23,6 +23,7 @@
         "codeception/specify": "^1.3.0"
     },
     "autoload": {
-        "psr-4": {"RobotE13\\UserAccount\\": "src"}
+        "psr-4": {"RobotE13\\UserAccount\\": "src"},
+        "files": ["src/functions.php"]
     }
 }

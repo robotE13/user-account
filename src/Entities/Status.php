@@ -19,6 +19,11 @@ class Status
     private $value;
     private $possibleStates;
 
+    /**
+     *
+     * @param int $value
+     * @param PossibleState $possibleStates
+     */
     public function __construct(int $value, PossibleState $possibleStates)
     {
         Assert::true($possibleStates->isValidValue($value));
