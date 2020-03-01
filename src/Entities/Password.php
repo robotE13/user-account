@@ -1,10 +1,18 @@
 <?php
 
 /**
- * @package UserAccount
+ * This file is part of the user-account.
+ *
+ * Copyright 2020 Evgenii Dudal <wolfstrace@gmail.com>.
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ * @package user-account
  */
 
 namespace RobotE13\UserAccount\Entities;
+
+use RobotE13\UserAccount;
 
 /**
  * Преставляет хеш пароля.
@@ -23,7 +31,7 @@ class Password
      */
     public function __construct(string $password, $algo = PASSWORD_DEFAULT)
     {
-        $complexity = self::checkComplexity($password);
+        $complexity = static::checkComplexity($password);
         if(!$complexity->getTruth())
         {
             throw new \DomainException($complexity->getErrorMessage());
@@ -46,22 +54,23 @@ class Password
      * @param string $password
      * @return CheckResult
      */
-    public static function checkComplexity($password): CheckResult
+    public final static function checkComplexity($password): CheckResult
     {
-        if(strlen($password) < 8)
-        {
-            return new CheckResult(false, 'The password must be at least 8 characters long.');
-        } elseif(!preg_match('/^[A-Za-z\d\W_]+$/u', $password))
-        {
-            return new CheckResult(false, 'Only latin letters, numbers, and special characters are allowed.');
-        } elseif(preg_match('/^[a-z\d\W_]+$/u', $password))
-        {
-            return new CheckResult(false, 'The password must contain at least one uppercase character.');
-        }elseif(preg_match('/^[A-Za-z]+$/u', $password))
-        {
-            return new CheckResult(false, 'The password must contain at least one digit or special character.');
-        }
-        return new CheckResult(true);
+        return UserAccount\reduce(
+                        fn($nextCall, $rule) => UserAccount\createValidator($rule, $nextCall),
+                        array_reverse(static::complexityDescription()),
+                        null
+                )($password);
+    }
+
+    protected static function complexityDescription()
+    {
+        return [
+            'length' => ['lengthLessThan', 'condition' => 8, 'message' => 'The password must be at least 8 characters long.'],
+            'onlyLatin' => ['match', 'condition' => '/[^A-Za-z\d\W_]+/u', 'message' => 'Only latin letters, numbers, and special characters are allowed.'],
+            'uppercaseRequired' => ['match', 'condition' => '/^[^A-Z]+$/u', 'message' => 'The password must contain at least one uppercase character.'],
+            'specialOrDigitRequired' => ['match', 'condition' => '/^[^\d\W_]+$/u', 'message' => 'The password must contain at least one digit or special character.']
+        ];
     }
 
     public function getHash(): string

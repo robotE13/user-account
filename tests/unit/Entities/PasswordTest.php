@@ -28,6 +28,13 @@ class PasswordTest extends \Codeception\Test\Unit
         $this->user = (new \Helper\UserBuilder())->create();
     }
 
+    public function testOrderExecution()
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('The password must be at least 8 characters long.');
+        new Password('zzzz');
+    }
+
     public function testLessThanEightLenghtNotAllowed()
     {
         $this->expectException(\DomainException::class);
@@ -54,6 +61,13 @@ class PasswordTest extends \Codeception\Test\Unit
         $this->expectException(\DomainException::class);
         $this->expectExceptionMessage('The password must contain at least one digit or special character.');
         new Password('noDigitalCharacters');
+    }
+
+    public function testExcludeLengthRule()
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Only latin letters, numbers, and special characters are allowed.');
+        new \Helper\Entities\PasswordWithoutCheckingLength('яzzz');
     }
 
     public function testChange()
