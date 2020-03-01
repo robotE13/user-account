@@ -12,6 +12,8 @@
 
 namespace RobotE13\UserAccount\Entities\Contact;
 
+use RobotE13\UserAccount\Entities\PossibleState;
+
 /**
  * Description of Contact
  *
@@ -20,16 +22,15 @@ namespace RobotE13\UserAccount\Entities\Contact;
 class Contact
 {
 
-    const TYPE_EMAIL = 'email';
-    const TYPE_PHONE = 'phone';
-
-    private $type;
     private $value;
+    private $type;
+    private $possibleTypes;
 
-    public function __construct($type, $value)
+    public function __construct($type, $value, PossibleState $possibleTypes)
     {
         $this->type = $type;
         $this->value = $value;
+        $this->possibleTypes = $possibleTypes;
     }
 
     public function isEqualTo(self $contact)
@@ -40,6 +41,16 @@ class Contact
     public function getValue()
     {
         return $this->value;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function getPossibleTypes(): PossibleState
+    {
+        return $this->possibleTypes;
     }
 
 }
