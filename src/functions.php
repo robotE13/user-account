@@ -37,7 +37,7 @@ function createValidator($description, $next = null):callable
 {
     return function($password) use ($description, $next) {
         $functionName = function_exists($description[0]) ? $description[0] : "RobotE13\\UserAccount\\{$description[0]}";
-        return $functionName($password, $description['condition']) ?
+        return !$functionName($password, $description['condition']) ?
                 new Entities\CheckResult(false, $description['message']) :
                 (is_callable($next) ? $next($password) : new Entities\CheckResult(true));
     };
