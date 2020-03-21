@@ -4,7 +4,9 @@ namespace Helper;
 
 use RobotE13\UserAccount\Entities\{
     Id,
-    User
+    User,
+    UserStatuses,
+    Status
 };
 
 /**
@@ -20,19 +22,36 @@ class UserBuilder
     private $uuid;
     private $registrationEmail;
     private $password;
-    private $isConfirmed;
-    private $registeredOn;
+    private $status;
+    //private $registeredOn;
 
     public function __construct()
     {
         $this->uuid = Id::next();
         $this->registrationEmail = 'user1@usermail.com';
         $this->password = new \RobotE13\UserAccount\Entities\Password(self::DEFAULT_PASSWORD);
+        $this->status = UserStatuses::UNCONFIRMED;
     }
 
+    /**
+     * Задать создаваемому пользователю определенный ID
+     * @param Id $uid
+     * @return $this
+     */
     public function withUid(Id $uid)
     {
         $this->uuid = $uid;
+        return $this;
+    }
+
+    /**
+     * Создать пользователя с определенным статусом.
+     * @param int $status
+     * @return $this
+     */
+    public function withStatus(int $status)
+    {
+        $this->status = $status;
         return $this;
     }
 
@@ -41,7 +60,8 @@ class UserBuilder
         $user = new User(
                 $this->uuid,
                 $this->registrationEmail,
-                $this->password
+                $this->password,
+                new Status($this->status, new UserStatuses())
         );
 
         return $user;

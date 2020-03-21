@@ -28,7 +28,7 @@ class User
     private $uid;
     private $registrationEmail;
     private $password;
-    private $isConfirmed;
+    private $status;
     private $contacts;
     private $registeredOn;
 
@@ -37,15 +37,16 @@ class User
      * @param Id $uid
      * @param string $registrationEmail
      * @param Password $password
+     * @param Status $status
      * @param array $contacts
      */
-    public function __construct(Id $uid, string $registrationEmail, Password $password, $contacts = [])
+    public function __construct(Id $uid, string $registrationEmail, Password $password, Status $status, $contacts = [])
     {
         $this->uid = $uid;
         $this->registrationEmail = $registrationEmail;
         $this->password = $password;
         $this->contacts = new ContactsCollection($contacts);
-        $this->isConfirmed = false;
+        $this->status = $status;
         $this->registeredOn = new \DateTimeImmutable();
     }
 
@@ -105,21 +106,37 @@ class User
         return $this->uid;
     }
 
+    /**
+     * Регистрационный e-mail полльзователя.
+     * @return string
+     */
     public function getRegistrationEmail(): string
     {
         return $this->registrationEmail;
     }
 
+    /**
+     * Возвращает объект представляющий пароль и методы работы с ним.
+     * @return Password
+     */
     public function getPassword(): Password
     {
         return $this->password;
     }
 
-    public function isConfirmed(): bool
+    /**
+     * Возвращает объект представляющий текущий статус пользователя.
+     * @return Status
+     */
+    public function getStatus(): Status
     {
-        return $this->isConfirmed;
+        return $this->status;
     }
 
+    /**
+     * Дата регистрации пользователя.
+     * @return \DateTimeImmutable
+     */
     public function getRegisteredOn(): \DateTimeImmutable
     {
         return $this->registeredOn;

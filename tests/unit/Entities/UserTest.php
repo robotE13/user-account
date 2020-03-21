@@ -2,7 +2,9 @@
 
 namespace tests\unit\Entities;
 
-use RobotE13\UserAccount\Entities\Id;
+use RobotE13\UserAccount\Entities\{
+    Id,
+};
 
 class UserTest extends \Codeception\Test\Unit
 {
@@ -16,16 +18,30 @@ class UserTest extends \Codeception\Test\Unit
     {
         $user = (new \Helper\UserBuilder())->withUid($uid = Id::next())->create();
 
-        expect('Новый пользователь создается не подтвержденным', $user->isConfirmed())->false();
+        expect('Новый пользователь создается не подтвержденным', $user->getStatus()->isActive())->false();
         expect('UUID созданного пользователя совпадает с заданным UUID', $user->getUid()->isEqualTo($uid))->true();
-        expect('Текущий пароль: ' . \Helper\UserBuilder::DEFAULT_PASSWORD, $user->getPassword()->verify(\Helper\UserBuilder::DEFAULT_PASSWORD))->true();
-        expect('Дата регистрации - неизменяемый объект', $user->getRegisteredOn())->isInstanceOf(\DateTimeImmutable::class);
+        expect('Current password: ' . \Helper\UserBuilder::DEFAULT_PASSWORD, $user->getPassword()->verify(\Helper\UserBuilder::DEFAULT_PASSWORD))->true();
+        expect('Registration date - immutable DateTime object', $user->getRegisteredOn())->isInstanceOf(\DateTimeImmutable::class);
     }
 
     public function testFailToCreateWithoutId()
     {
         $this->expectException(\InvalidArgumentException::class);
         (new \Helper\UserBuilder())->withUid(new Id(''))->create();
+    }
+
+    public function testChangeStatus()
+    {
+        $user = (new \Helper\UserBuilder())->create();
+
+        $user->getStatus()->confirm();
+        expect('Пользователь имеет статус подтвержденный', $user->getStatus()->isActive())->true();
+        $user->getStatus()->suspend();
+        expect('Пользователь имеет статус заблокированный', $user->getStatus()->isSuspended())->true();
+        $user->getStatus()->archive();
+        expect('Пользователь имеет статус заблокированный', $user->getStatus()->isArchived())->true();
+        $user->getStatus()->restore();
+        expect('После восстановления пользователь имеет статус "active"', $user->getStatus()->isActive())->true();
     }
 
 }
