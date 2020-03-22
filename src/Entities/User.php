@@ -20,7 +20,16 @@ use RobotE13\UserAccount\Entities\Contact\{
 /**
  * Description of User
  *
- * @author robotR13
+ * @method bool isConfirmed() Description
+ * @method bool isActive() Description
+ * @method bool isInactive() Description
+ * @method bool isSuspended() Description
+ * @method bool isArchived() Description
+ * @method void confirm() Confirmation the newly registered account. Wrapper over {@see Status::confirm}
+ * @method void suspend() {@see Status::suspend}
+ * @method void archive() {@see Status::archive}
+ * @method void restore() {@see Status::restore}
+ * @author Evgenii Dudal <wolfstrace@gmail.com>
  */
 class User
 {
@@ -50,7 +59,18 @@ class User
         $this->registeredOn = new \DateTimeImmutable();
     }
 
-    /**
+    public function __call($name, $arguments)
+    {
+        $status = $this->getStatus();
+        $isGetter = strpos('get', $name) === 0;
+        if(!$isGetter && method_exists($status, $name))
+        {
+            return $status->$name();
+        }
+        throw new \BadMethodCallException('Calling unknown method: ' . get_class($this) . "::$name()");
+    }
+
+        /**
      * Смена текущего пароля пароля пользователя.
      * Метод сравнивает переданный {{@see $currentPassword}} для подтверждения смены и при
      * совпадении с установленным текущим паролем заменяет его на новый.

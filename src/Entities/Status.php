@@ -37,7 +37,7 @@ class Status
         $this->possibleStates = $possibleStates;
     }
 
-    public function isConfirmed()
+    public function isConfirmed(): bool
     {
         return $this->value !== UserStatuses::UNCONFIRMED;
     }
@@ -62,7 +62,12 @@ class Status
         return $this->value === UserStatuses::ARCHIVED;
     }
 
-    public function confirm()
+    /**
+     * Confirmation the newly registered account.
+     * @return void
+     * @throws \DomainException
+     */
+    public function confirm(): void
     {
         if($this->isConfirmed())
         {
@@ -71,6 +76,10 @@ class Status
         $this->value = UserStatuses::ACTIVE;
     }
 
+    /**
+     * Заморозить аккаунт пользователя.
+     * @throws \DomainException
+     */
     public function suspend()
     {
         if(!$this->isActive())
@@ -80,6 +89,10 @@ class Status
         $this->value = UserStatuses::SUSPENDED;
     }
 
+    /**
+     *
+     * @throws \DomainException
+     */
     public function archive()
     {
         if($this->isArchived())
@@ -92,6 +105,10 @@ class Status
         $this->value = UserStatuses::ARCHIVED;
     }
 
+    /**
+     * Активировать замороженный или архивный аккаунт.
+     * @throws \DomainException
+     */
     public function restore()
     {
         if(!$this->isInactive())
@@ -100,6 +117,10 @@ class Status
         }
         $this->value = UserStatuses::ACTIVE;
     }
+
+    //////////////////////
+    // Getters
+    //////////////////////
 
     /**
      * Get an object that represents a list of valid status values.

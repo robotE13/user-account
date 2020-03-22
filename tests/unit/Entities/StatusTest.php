@@ -3,8 +3,9 @@
 namespace tests\unit\Entities;
 
 use RobotE13\UserAccount\Entities\{
+    User,
+    Status,
     UserStatuses,
-    Status
 };
 
 class StatusTest extends \Codeception\Test\Unit
@@ -16,12 +17,6 @@ class StatusTest extends \Codeception\Test\Unit
      * @var \UnitTester
      */
     protected $tester;
-
-    /**
-     * @var Status
-     * @specify
-     */
-    private $status;
 
     /**
      * @dataProvider getAllExisting
@@ -39,72 +34,72 @@ class StatusTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @param Status $status Description
-     * @dataProvider getAllStatuses
+     * @param User $user Description
+     * @dataProvider getUsersWithAllPossibleStatuses
      */
-    public function testConfirmation($status)
+    public function testConfirmation($user)
     {
-        if(!$status->isConfirmed())
+        if(!$user->isConfirmed())
         {
-            $status->confirm();
-            expect('Пользователь будет считаться подтвержденным', $status->isConfirmed())->true();
-            expect('Пользователь будет считаться "активным" (может быть авторизован)', $status->isActive())->true();
-            expect('Пользователь НЕ считается неактивным (НЕ заблокирован и НЕ в архиве)', $status->isInactive())->false();
-            expect('Пользователь НЕ будет считаться заблокированным', $status->isSuspended())->false();
-            expect('Пользователь НЕ будет считаться удаленным (отправленным в архив)', $status->isArchived())->false();
+            $user->confirm();
+            expect('Пользователь будет считаться подтвержденным', $user->isConfirmed())->true();
+            expect('Пользователь будет считаться "активным" (может быть авторизован)', $user->isActive())->true();
+            expect('Пользователь НЕ считается неактивным (НЕ заблокирован и НЕ в архиве)', $user->isInactive())->false();
+            expect('Пользователь НЕ будет считаться заблокированным', $user->isSuspended())->false();
+            expect('Пользователь НЕ будет считаться удаленным (отправленным в архив)', $user->isArchived())->false();
         } else
         {
-            expect('Не поулчится подтвердить, если уже был подтвержден ранее', fn() => $status->confirm())
+            expect('Не поулчится подтвердить, если уже был подтвержден ранее', fn() => $user->confirm())
                     ->throws(\DomainException::class, 'The user has been already confirmed.');
         }
     }
 
     /**
-     * @param Status $status Description
-     * @dataProvider getAllStatuses
+     * @param User $user Description
+     * @dataProvider getUsersWithAllPossibleStatuses
      */
-    public function testSuspending($status)
+    public function testSuspending($user)
     {
-        if($status->isActive())
+        if($user->isActive())
         {
-            $status->suspend();
-            expect('Пользователь будет считаться подтвержденным', $status->isConfirmed())->true();
-            expect('Пользователь НЕ будет считаться "активным"', $status->isActive())->false();
-            expect('Пользователь неактивен (заблокирован или удален(в архиве))', $status->isInactive())->true();
-            expect('Пользователь будет считаться заблокированным', $status->isSuspended())->true();
-            expect('Пользователь НЕ будет считаться удаленным (отправленным в архив)', $status->isArchived())->false();
+            $user->suspend();
+            expect('Пользователь будет считаться подтвержденным', $user->isConfirmed())->true();
+            expect('Пользователь НЕ будет считаться "активным"', $user->isActive())->false();
+            expect('Пользователь неактивен (заблокирован или удален(в архиве))', $user->isInactive())->true();
+            expect('Пользователь будет считаться заблокированным', $user->isSuspended())->true();
+            expect('Пользователь НЕ будет считаться удаленным (отправленным в архив)', $user->isArchived())->false();
         } else
         {
-            expect('Не поулчится приостановить, если пользователь не является действующим', fn() => $status->suspend())
+            expect('Не поулчится приостановить, если пользователь не является действующим', fn() => $user->suspend())
                     ->throws(\DomainException::class, 'Can suspend only active user.');
         }
     }
 
     /**
-     * @param Status $status Description
-     * @dataProvider getAllStatuses
+     * @param User $user Description
+     * @dataProvider getUsersWithAllPossibleStatuses
      */
-    public function testArchivation($status)
+    public function testArchivation($user)
     {
-        switch ($status->getValue())
+        switch ($user->getValue())
         {
             case UserStatuses::SUSPENDED:
-                $status->archive();
+                $user->archive();
                 break;
             case UserStatuses::ACTIVE:
-                $status->archive();
-                expect('Пользователь будет считаться подтвержденным', $status->isConfirmed())->true();
-                expect('Пользователь НЕ будет считаться "активным"', $status->isActive())->false();
-                expect('Пользователь неактивен (заблокирован или удален(в архиве))', $status->isInactive())->true();
-                expect('Пользователь НЕ будет считаться заблокированным', $status->isSuspended())->false();
-                expect('Пользователь будет считаться удаленным (отправленным в архив)', $status->isArchived())->true();
+                $user->archive();
+                expect('Пользователь будет считаться подтвержденным', $user->isConfirmed())->true();
+                expect('Пользователь НЕ будет считаться "активным"', $user->isActive())->false();
+                expect('Пользователь неактивен (заблокирован или удален(в архиве))', $user->isInactive())->true();
+                expect('Пользователь НЕ будет считаться заблокированным', $user->isSuspended())->false();
+                expect('Пользователь будет считаться удаленным (отправленным в архив)', $user->isArchived())->true();
                 break;
             case UserStatuses::ARCHIVED:
-                expect('Нельзя отправить в архив уже находящегося в архиве', fn() => $status->archive())
+                expect('Нельзя отправить в архив уже находящегося в архиве', fn() => $user->archive())
                         ->throws(\DomainException::class, 'User already archived.');
                 break;
             case UserStatuses::UNCONFIRMED:
-                expect('An unconfirmed user cannot be archived.', fn() => $status->archive())
+                expect('An unconfirmed user cannot be archived.', fn() => $user->archive())
                         ->throws(\DomainException::class, 'An unconfirmed user cannot be archived.');
         }
     }
@@ -120,9 +115,9 @@ class StatusTest extends \Codeception\Test\Unit
         return $dataProvider;
     }
 
-    public function getAllStatuses()
+    public function getUsersWithAllPossibleStatuses()
     {
-        return array_map(fn($item) => ['status' => new Status($item, new UserStatuses())],
+        return array_map(fn($status) => ['user' => (new \Helper\UserBuilder())->withStatus($status)->create()],
                 [
                     UserStatuses::UNCONFIRMED,
                     UserStatuses::ACTIVE,
