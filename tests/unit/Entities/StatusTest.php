@@ -81,7 +81,7 @@ class StatusTest extends \Codeception\Test\Unit
      */
     public function testArchivation($user)
     {
-        switch ($user->getValue())
+        switch ($user->getStatus()->getValue())
         {
             case UserStatuses::SUSPENDED:
                 $user->archive();

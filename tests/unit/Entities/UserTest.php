@@ -30,6 +30,13 @@ class UserTest extends \Codeception\Test\Unit
         (new \Helper\UserBuilder())->withUid(new Id(''))->create();
     }
 
+    public function testFailToCallGetterFromStatusDirectly()
+    {
+        $user = (new \Helper\UserBuilder())->create();
+        expect('Bad method call if called getter exist in Status',fn()=>$user->getValue())
+                ->throws(\BadMethodCallException::class);
+    }
+
     public function testChangeStatus()
     {
         $user = (new \Helper\UserBuilder())->create();

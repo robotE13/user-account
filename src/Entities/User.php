@@ -59,10 +59,23 @@ class User
         $this->registeredOn = new \DateTimeImmutable();
     }
 
+    /**
+     * Calls the named method which is not a class method.
+     *
+     * This method creates wrapper methods over methods of the Status class
+     * that are used to check or change the user account status.
+     *
+     * Do not call this method directly as it is a PHP magic method that
+     * will be implicitly called when an unknown method is being invoked.
+     * @param string $name the method name
+     * @param array $arguments method parameters
+     * @return mixed the method return value
+     * @throws \BadMethodCallException when calling unknown method
+     */
     public function __call($name, $arguments)
     {
         $status = $this->getStatus();
-        $isGetter = strpos('get', $name) === 0;
+        $isGetter = strpos($name,'get') === 0;
         if(!$isGetter && method_exists($status, $name))
         {
             return $status->$name();
@@ -70,7 +83,7 @@ class User
         throw new \BadMethodCallException('Calling unknown method: ' . get_class($this) . "::$name()");
     }
 
-        /**
+    /**
      * Смена текущего пароля пароля пользователя.
      * Метод сравнивает переданный {{@see $currentPassword}} для подтверждения смены и при
      * совпадении с установленным текущим паролем заменяет его на новый.
