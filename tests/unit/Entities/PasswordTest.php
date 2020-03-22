@@ -30,9 +30,13 @@ class PasswordTest extends \Codeception\Test\Unit
 
     public function testOrderExecution()
     {
-        $this->expectException(\DomainException::class);
-        $this->expectExceptionMessage('The password must be at least 8 characters long.');
-        new Password('zzzz');
+        expect('If the password does not match according to several criteria, the error about the presence of invalid characters should be detected first.',
+                        fn() => new Password('zzzzЯ'))
+                ->throws(\DomainException::class, 'Only latin letters, numbers, and special characters are allowed.');
+
+        expect('The first error should be that the password length is less than 8 characters.',
+                        fn() => new Password('zzzz'))
+                ->throws(\DomainException::class, 'The password must be at least 8 characters long.');
     }
 
     public function testLessThanEightLenghtNotAllowed()

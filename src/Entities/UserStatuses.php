@@ -13,9 +13,9 @@
 namespace RobotE13\UserAccount\Entities;
 
 /**
- * Description of AvailableValues
+ * Description of UserStatuses
  *
- * @author robotR13
+ * @author Evgenii Dudal <wolfstrace@gmail.com>
  */
 class UserStatuses implements PossibleState
 {
