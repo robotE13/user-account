@@ -16,7 +16,8 @@ class UserTest extends \Codeception\Test\Unit
 
     public function testSuccessfullyCreated()
     {
-        $user = (new \Helper\UserBuilder())->withUid($uid = Id::next())->create();
+        $uid = new Id((new Id())->getUid()->getBytes());
+        $user = (new \Helper\UserBuilder())->withUid($uid)->create();
 
         expect('Новый пользователь создается не подтвержденным', $user->getStatus()->isActive())->false();
         expect('UUID созданного пользователя совпадает с заданным UUID', $user->getUid()->isEqualTo($uid))->true();
@@ -24,16 +25,24 @@ class UserTest extends \Codeception\Test\Unit
         expect('Registration date - immutable DateTime object', $user->getRegisteredOn())->isInstanceOf(\DateTimeImmutable::class);
     }
 
-    public function testFailToCreateWithoutId()
+    public function testFailToCreateIncorrectUid()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        (new \Helper\UserBuilder())->withUid(new Id(''))->create();
+        expect('Cannot create with empty UUID',
+                        fn() => (new \Helper\UserBuilder())->withUid(new Id(''))->create())
+                ->throws(\Ramsey\Uuid\Exception\InvalidArgumentException::class);
+        expect('Cannot create from non UUID',
+                        fn() => (new \Helper\UserBuilder())->withUid(new Id('fewf'))->create())
+                ->throws(\Ramsey\Uuid\Exception\InvalidArgumentException::class);
+        expect('Cannot create non-time based UUID',
+                        fn() => (new \Helper\UserBuilder())->withUid(new Id(\Ramsey\Uuid\Uuid::uuid1()->getBytes()))->create())
+                ->throws(\Ramsey\Uuid\Exception\UnsupportedOperationException::class,
+                        'Attempting to decode a non-time-based UUID using OrderedTimeCodec');
     }
 
     public function testFailToCallGetterFromStatusDirectly()
     {
         $user = (new \Helper\UserBuilder())->create();
-        expect('Bad method call if called getter exist in Status',fn()=>$user->getValue())
+        expect('Bad method call if called getter exist in Status', fn() => $user->getValue())
                 ->throws(\BadMethodCallException::class);
     }
 

@@ -27,7 +27,7 @@ class UserBuilder
 
     public function __construct()
     {
-        $this->uuid = Id::next();
+        $this->uuid = new Id();
         $this->registrationEmail = 'user1@usermail.com';
         $this->password = new \RobotE13\UserAccount\Entities\Password(self::DEFAULT_PASSWORD);
         $this->status = UserStatuses::UNCONFIRMED;
@@ -35,10 +35,10 @@ class UserBuilder
 
     /**
      * Задать создаваемому пользователю определенный ID
-     * @param Id $uid
+     * @param Id|null $uid
      * @return $this
      */
-    public function withUid(Id $uid)
+    public function withUid($uid)
     {
         $this->uuid = $uid;
         return $this;

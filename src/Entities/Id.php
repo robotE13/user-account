@@ -13,38 +13,46 @@
 namespace RobotE13\UserAccount\Entities;
 
 use Webmozart\Assert\Assert;
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\{
+    UuidFactory,
+    Codec\OrderedTimeCodec,
+    Rfc4122\UuidV1
+};
 
 /**
  * Description of Id
  *
- * @author robotR13
+ * @author Evgenii Dudal <wolfstrace@gmail.com>
  */
 class Id
 {
 
     private $uid;
 
-    public function __construct(string $id)
+    /**
+     * Constructor.
+     *
+     * Initializes the UUID object from given bytes representation `$bytes`,
+     * or creates new ordered by time UUID if `$bytes` is not set.
+     * @param string $bytes A binary string
+     */
+    public function __construct(string $bytes = null)
     {
-        Assert::notEmpty($id);
+        $factory = new UuidFactory();
+        $factory->setCodec(new OrderedTimeCodec($factory->getUuidBuilder()));
 
-        $this->uid = $id;
+        $this->uid = $bytes !== null ? $factory->fromBytes($bytes) : $factory->uuid1();
+        Assert::isInstanceOf($this->uid, UuidV1::class);
     }
 
-    public static function next(): self
-    {
-        return new self(Uuid::uuid1()->toString());
-    }
-
-    public function getUid(): string
+    public function getUid(): UuidV1
     {
         return $this->uid;
     }
 
     public function isEqualTo(self $other): bool
     {
-        return $this->getUid() === $other->getUid();
+        return $this->getUid()->equals($other->getUid());
     }
 
 }
