@@ -10,19 +10,19 @@
  * @package user-account/tests
  */
 
-namespace Helper\Entities;
+namespace Helper\Services;
 
-use RobotE13\UserAccount\Entities\Password;
+use RobotE13\UserAccount\Services\PasswordService;
 
 /**
  * Для проверки настройки правил валидации пароля.
  * Класс переопределяет метод, описывающий правила валидации пароля.
  * @author Evgenii Dudal <wolfstrace@gmail.com>
  */
-class PasswordWithoutCheckingLength extends Password
+class PasswordServiceWithoutCheckingLength extends PasswordService
 {
 
-    protected static function complexityDescription()
+    public function complexityDescription()
     {
         $rules = parent::complexityDescription();
         unset($rules['length']);

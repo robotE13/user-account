@@ -2,6 +2,7 @@
 
 namespace Helper;
 
+use RobotE13\UserAccount\Services\PasswordService;
 use RobotE13\UserAccount\Entities\{
     Id,
     User,
@@ -29,7 +30,7 @@ class UserBuilder
     {
         $this->uuid = new Id();
         $this->registrationEmail = 'user1@usermail.com';
-        $this->password = new \RobotE13\UserAccount\Entities\Password(self::DEFAULT_PASSWORD);
+        $this->password = (new PasswordService())->create(self::DEFAULT_PASSWORD);
         $this->status = UserStatuses::UNCONFIRMED;
     }
 
