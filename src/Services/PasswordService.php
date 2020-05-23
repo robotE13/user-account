@@ -71,7 +71,7 @@ class PasswordService
 
     public function createFromHash($hash): Password
     {
-        Assert::isArray(password_get_info($hash), 'The `$hash` is not a password hash calculated by the `password_hash()` function.');
+        Assert::notEq(password_get_info($hash)['algo'], 0, 'The `$hash` is not a password hash calculated by the `password_hash()` function.');
         return $this->hydrator->hydrate(compact('hash'), Password::class);
     }
 

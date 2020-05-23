@@ -20,8 +20,8 @@ use RobotE13\UserAccount\Entities\Contact\{
 /**
  * Description of User
  *
- * @method bool isConfirmed() Description
- * @method bool isActive() Description
+ * @method bool isConfirmed() {@see Status::isConfirmed}
+ * @method bool isActive() {@see Status::isActive}
  * @method bool isInactive() Description
  * @method bool isSuspended() Description
  * @method bool isArchived() Description

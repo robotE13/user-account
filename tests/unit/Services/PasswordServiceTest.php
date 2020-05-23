@@ -27,6 +27,13 @@ class PasswordServiceTest extends \Codeception\Test\Unit
         $this->service = new PasswordService();
     }
 
+    public function testFailToCreateFromHash()
+    {
+        expect('Trying to create a password object when plain text given instead hash',
+                        fn() => $this->service->createFromHash('plain_text'))
+                ->throws(\InvalidArgumentException::class);
+    }
+
     public function testCreatePasswordHash()
     {
         $this->specify('Successfully creating a password hash', function () {

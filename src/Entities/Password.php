@@ -27,7 +27,7 @@ class Password
      *
      * Direct creation by the "new" operator is not supported.
      * To create an object representing the password hash,
-     * use the appropriate methods of the class: {{@see \RobotE13\UserAccount\Services\PasswordService}}.
+     * use the appropriate methods of the class: {@see \RobotE13\UserAccount\Services\PasswordService}.
      * @throws \DomainException
      */
     final public function __construct()
@@ -43,11 +43,6 @@ class Password
     public function verify(string $password): bool
     {
         return password_verify($password, $this->hash);
-    }
-
-    public function getHash(): string
-    {
-        return $this->hash;
     }
 
 }
