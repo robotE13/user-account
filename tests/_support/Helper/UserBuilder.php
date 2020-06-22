@@ -46,6 +46,17 @@ class UserBuilder
     }
 
     /**
+     * Задать создаваемому пользователю определенный ID
+     * @param Id|null $uid
+     * @return $this
+     */
+    public function withEmail($email)
+    {
+        $this->registrationEmail = $email;
+        return $this;
+    }
+
+    /**
      * Создать пользователя с определенным статусом.
      * @param int $status
      * @return $this
