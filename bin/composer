@@ -1,7 +1,3 @@
 #!/bin/bash
 
-if [[ -z "$(docker images -q robote13/user-account)" ]]; then
-  docker image build -t robote13/user-account .
-fi
-
-docker run -it --rm -v ${PWD}/:/usr/src/user_account robote13/user-account composer $@
+docker run -it --rm -v ${PWD}/:/usr/src/project robote13/php-library-dev composer $@

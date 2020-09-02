@@ -1,3 +1,10 @@
+# Ignore all test and documentation for archive
+/.editorconfig      export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/.gitignore         export-ignore
+/bin                export-ignore
+/tests              export-ignore
+
 # Shell script files will be always have LF line endings on checkout.
-*.sh text eol=lf
 /bin/* text eol=lf
