@@ -16,27 +16,13 @@ class UserTest extends \Codeception\Test\Unit
 
     public function testSuccessfullyCreated()
     {
-        $uid = new Id((new Id())->getUid()->getBytes());
+        $uid = new Id();
         $user = (new \Helper\UserBuilder())->withUid($uid)->create();
 
         expect('Новый пользователь создается не подтвержденным', $user->getStatus()->isActive())->false();
         expect('UUID созданного пользователя совпадает с заданным UUID', $user->getUid()->isEqualTo($uid))->true();
         expect('Current password: ' . \Helper\UserBuilder::DEFAULT_PASSWORD, $user->getPassword()->verify(\Helper\UserBuilder::DEFAULT_PASSWORD))->true();
         expect('Registration date - immutable DateTime object', $user->getRegisteredOn())->isInstanceOf(\DateTimeImmutable::class);
-    }
-
-    public function testFailToCreateIncorrectUid()
-    {
-        expect('Cannot create with empty UUID',
-                        fn() => (new \Helper\UserBuilder())->withUid(new Id(''))->create())
-                ->throws(\Ramsey\Uuid\Exception\InvalidArgumentException::class);
-        expect('Cannot create from non UUID',
-                        fn() => (new \Helper\UserBuilder())->withUid(new Id('fewf'))->create())
-                ->throws(\Ramsey\Uuid\Exception\InvalidArgumentException::class);
-        expect('Cannot create non-time based UUID',
-                        fn() => (new \Helper\UserBuilder())->withUid(new Id(\Ramsey\Uuid\Uuid::uuid1()->getBytes()))->create())
-                ->throws(\Ramsey\Uuid\Exception\UnsupportedOperationException::class,
-                        'Attempting to decode a non-time-based UUID using OrderedTimeCodec');
     }
 
     public function testFailToCallGetterFromStatusDirectly()

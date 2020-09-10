@@ -9,7 +9,7 @@
             "email": "wolfstrace@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": "^7.4 | ^8",
         "webmozart/assert": "^1.7.0",
@@ -24,6 +24,9 @@
         "codeception/specify": "^1.3.0"
     },
     "scripts": {
+        "codecept": [
+            "codecept"
+        ],
         "test": [
             "codecept -v run"
         ]

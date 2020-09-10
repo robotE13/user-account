@@ -43,7 +43,7 @@ class User
 
     /**
      *
-     * @param Id $uid
+     * @param Id $uid user Id
      * @param string $registrationEmail
      * @param Password $password
      * @param Status $status

@@ -20,6 +20,12 @@ use RobotE13\UserAccount\Entities\User;
  */
 interface UserRepository
 {
+    /**
+     *
+     * @param type $id
+     * @return User
+     * @throws NotFoundException
+     */
     public function findById($id):User;
     public function findByEmail($email):User;
 
