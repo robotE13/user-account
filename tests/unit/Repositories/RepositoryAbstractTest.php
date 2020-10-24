@@ -2,7 +2,7 @@
 
 namespace tests\unit\Repositories;
 
-use RobotR13\UserAccount\Repositories\NotFoundException;
+use RobotE13\UserAccount\Repositories\NotFoundException;
 use RobotE13\UserAccount\Entities\{
     Id,
     User

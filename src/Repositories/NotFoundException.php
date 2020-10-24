@@ -10,7 +10,7 @@
  * @package user-account
  */
 
-namespace RobotR13\UserAccount\Repositories;
+namespace RobotE13\UserAccount\Repositories;
 
 /**
  * Description of NotFoundException

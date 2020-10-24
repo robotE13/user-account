@@ -12,7 +12,7 @@
 
 namespace RobotE13\UserAccount\Services;
 
-use RobotR13\UserAccount\Repositories\UserRepository;
+use RobotE13\UserAccount\Repositories\UserRepository;
 use RobotE13\UserAccount\Entities\{
     Id,
     Password,
