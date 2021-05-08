@@ -3,9 +3,7 @@
 namespace tests\unit\Entities;
 
 use Helper\Builders\UserBuilder;
-use RobotE13\UserAccount\Entities\{
-    Id,
-};
+use RobotE13\DDD\Entities\Uuid\Id;
 
 class UserTest extends \Codeception\Test\Unit
 {
@@ -17,7 +15,7 @@ class UserTest extends \Codeception\Test\Unit
 
     public function testSuccessfullyCreated()
     {
-        $uid = new Id();
+        $uid = Id::next();
         $user = $this->tester->getUserBuilder()->withUid($uid)->create();
 
         expect('Новый пользователь создается не подтвержденным', $user->getStatus()->isActive())->false();

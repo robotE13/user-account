@@ -12,9 +12,9 @@
 
 namespace RobotE13\UserAccount\Services\User\Create;
 
+use RobotE13\DDD\Entities\Uuid\Id;
 use RobotE13\UserAccount\Repositories\UserRepository;
 use RobotE13\UserAccount\Entities\{
-    Id,
     Password,
     Status,
     User,

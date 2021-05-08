@@ -3,9 +3,9 @@
 namespace Helper\Builders;
 
 use League\Tactician\CommandBus;
+use RobotE13\DDD\Entities\Uuid\Id;
 use RobotE13\UserAccount\Services\Security\PasswordCreate\PasswordCreate;
 use RobotE13\UserAccount\Entities\{
-    Id,
     User,
     UserStatuses,
     Status
@@ -35,7 +35,7 @@ class UserBuilder
     public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
-        $this->uuid = new Id();
+        $this->uuid = Id::next();
         $this->registrationEmail = 'user1@usermail.com';
         $this->password = $this->commandBus->handle(new PasswordCreate(self::DEFAULT_PASSWORD));
         $this->status = UserStatuses::UNCONFIRMED;

@@ -12,6 +12,7 @@
 
 namespace RobotE13\UserAccount\Entities;
 
+use RobotE13\DDD\Entities\Uuid\Id;
 use RobotE13\UserAccount\Entities\Contact\{
     Contact,
     ContactsCollection
@@ -38,7 +39,7 @@ class User
     private $registrationEmail;
     private $password;
     private $status;
-    
+
     /**
      * @var ContactsCollection
      */

@@ -3,9 +3,9 @@
 namespace tests\unit\Repositories;
 
 use Helper\Builders\UserBuilder;
+use RobotE13\DDD\Entities\Uuid\Id;
 use RobotE13\UserAccount\Repositories\NotFoundException;
 use RobotE13\UserAccount\Entities\{
-    Id,
     User
 };
 
