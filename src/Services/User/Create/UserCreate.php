@@ -10,15 +10,15 @@
  * @package user-account
  */
 
-namespace RobotE13\UserAccount\Services;
+namespace RobotE13\UserAccount\Services\User\Create;
 
 /**
- * Description of UserDTO
+ * Description of SignUp
  *
  * @author Evgenii Dudal <wolfstrace@gmail.com>
  */
-class UserDTO
+class UserCreate
 {
-    public $email;
     public $password;
+    public $email;
 }

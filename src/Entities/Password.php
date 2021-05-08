@@ -32,7 +32,7 @@ class Password
      */
     final public function __construct()
     {
-        throw new \DomainException('To create an object representing the password hash, use the appropriate methods of the class: ' . \RobotE13\UserAccount\Services\PasswordService::class);
+        throw new \DomainException('To create an object representing the password hash, use the appropriate commsnd from: `\RobotE13\UserAccount\Services\Security` namespace');
     }
 
     /**

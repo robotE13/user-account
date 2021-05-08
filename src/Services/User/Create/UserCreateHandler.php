@@ -10,7 +10,7 @@
  * @package user-account
  */
 
-namespace RobotE13\UserAccount\Services;
+namespace RobotE13\UserAccount\Services\User\Create;
 
 use RobotE13\UserAccount\Repositories\UserRepository;
 use RobotE13\UserAccount\Entities\{
@@ -18,15 +18,15 @@ use RobotE13\UserAccount\Entities\{
     Password,
     Status,
     User,
-    UserStatuses
+    UserStatuses,
 };
 
 /**
- * Description of UserService
+ * Description of SignUpHandler
  *
  * @author Evgenii Dudal <wolfstrace@gmail.com>
  */
-class UserService
+class UserCreateHandler
 {
 
     private $users;
@@ -36,12 +36,12 @@ class UserService
         $this->users = $users;
     }
 
-    public function create(UserDTO $dto): User
+    public function handle(UserCreate $command)
     {
         $user = new User(
                 new Id(),
-                $dto->email,
-                new Password($dto->password),
+                $command->email,
+                new Password($command->password),
                 new Status(
                         UserStatuses::UNCONFIRMED,
                         new UserStatuses()
@@ -50,20 +50,4 @@ class UserService
         $this->users->add($user);
         return $user;
     }
-
-    public function register($dto)
-    {
-
-    }
-
-    public function activate($id)
-    {
-
-    }
-
-    public function suspend($id)
-    {
-
-    }
-
 }

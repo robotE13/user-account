@@ -38,6 +38,10 @@ class User
     private $registrationEmail;
     private $password;
     private $status;
+    
+    /**
+     * @var ContactsCollection
+     */
     private $contacts;
     private $registeredOn;
 

@@ -2,6 +2,7 @@
 
 namespace tests\unit\Repositories;
 
+use Helper\Builders\UserBuilder;
 use RobotE13\UserAccount\Repositories\NotFoundException;
 use RobotE13\UserAccount\Entities\{
     Id,
@@ -26,7 +27,7 @@ abstract class RepositoryAbstractTest extends \Codeception\Test\Unit
     public function testFind()
     {
         $id = new Id();
-        $user = (new \Helper\UserBuilder())
+        $user = (new UserBuilder())
                 ->withUid($id)
                 ->withEmail('test@mail.ru')
                 ->create();
@@ -39,7 +40,7 @@ abstract class RepositoryAbstractTest extends \Codeception\Test\Unit
         expect('Email объекта полученного из репозитория совпадает с email сохраненного объекта',
                 $user->getRegistrationEmail() === $userFound->getRegistrationEmail())->true();
         expect('Хеш пароля объекта полученного из репозитория - соответствует паролю с которым был создан объект',
-                $userFound->getPassword()->verify(\Helper\UserBuilder::DEFAULT_PASSWORD))->true();
+                $userFound->getPassword()->verify(UserBuilder::DEFAULT_PASSWORD))->true();
     }
 
     public function testNotFound()

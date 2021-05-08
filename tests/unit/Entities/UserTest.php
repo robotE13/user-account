@@ -2,6 +2,7 @@
 
 namespace tests\unit\Entities;
 
+use Helper\Builders\UserBuilder;
 use RobotE13\UserAccount\Entities\{
     Id,
 };
@@ -17,25 +18,24 @@ class UserTest extends \Codeception\Test\Unit
     public function testSuccessfullyCreated()
     {
         $uid = new Id();
-        $user = (new \Helper\UserBuilder())->withUid($uid)->create();
+        $user = $this->tester->getUserBuilder()->withUid($uid)->create();
 
         expect('Новый пользователь создается не подтвержденным', $user->getStatus()->isActive())->false();
         expect('UUID созданного пользователя совпадает с заданным UUID', $user->getUid()->isEqualTo($uid))->true();
-        expect('Current password: ' . \Helper\UserBuilder::DEFAULT_PASSWORD, $user->getPassword()->verify(\Helper\UserBuilder::DEFAULT_PASSWORD))->true();
+        expect('Current password: ' . UserBuilder::DEFAULT_PASSWORD, $user->getPassword()->verify(UserBuilder::DEFAULT_PASSWORD))->true();
         expect('Registration date - immutable DateTime object', $user->getRegisteredOn())->isInstanceOf(\DateTimeImmutable::class);
     }
 
     public function testFailToCallGetterFromStatusDirectly()
     {
-        $user = (new \Helper\UserBuilder())->create();
+        $user = $this->tester->getUserBuilder()->create();
         expect('Bad method call if called getter exist in Status', fn() => $user->getValue())
                 ->throws(\BadMethodCallException::class);
     }
 
     public function testChangeStatus()
     {
-        $user = (new \Helper\UserBuilder())->create();
-
+        $user = $this->tester->getUserBuilder()->create();
         $user->getStatus()->confirm();
         expect('Пользователь имеет статус подтвержденный', $user->getStatus()->isActive())->true();
         $user->getStatus()->suspend();

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the user-account.
  *
  * Copyright 2020 Evgenii Dudal <wolfstrace@gmail.com>.

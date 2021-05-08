@@ -10,7 +10,7 @@
  * @package user-account
  */
 
-namespace Helper;
+namespace Helper\Builders;
 
 use RobotE13\UserAccount\Entities\Contact\{
     Contact,
@@ -34,16 +34,18 @@ class ContactBuilder
         $this->type = ContactTypes::TYPE_EMAIL;
     }
 
-    public function withType($type)
+    public function withType($type):self
     {
-        $this->type = $type;
-        return $this;
+        $clone = clone $this;
+        $clone->type = $type;
+        return $clone;
     }
 
-    public function withValue($value)
+    public function withValue($value):self
     {
-        $this->value = $value;
-        return $this;
+        $clone = clone $this;
+        $clone->value = $value;
+        return $clone;
     }
 
     public function create(): Contact

@@ -11,17 +11,12 @@ class ContactsTest extends \Codeception\Test\Unit
      * @var \UnitTester
      */
     protected $tester;
-    private $contactBuilder;
-
-    protected function _before()
-    {
-        $this->contactBuilder = new \Helper\ContactBuilder();
-    }
 
     public function testAdd(): void
     {
-        $user = (new \Helper\UserBuilder())->create();
-        $user->addContact($contact = $this->contactBuilder->create());
+
+        $user = $this->tester->getUserBuilder()->create();
+        $user->addContact($this->tester->getContactBuilder()->create());
 
         expect('Добавлен 1 контакт', $user->getContacts()->getAll())->count(1);
     }
@@ -31,18 +26,18 @@ class ContactsTest extends \Codeception\Test\Unit
         $this->expectException(\DomainException::class);
         $this->expectErrorMessage('Contact already exists.');
 
-        $user = (new \Helper\UserBuilder())->create();
+        $user = $this->tester->getUserBuilder()->create();
 
-        $user->addContact($this->contactBuilder->create());
-        $user->addContact($this->contactBuilder->create());
+        $user->addContact($this->tester->getContactBuilder()->create());
+        $user->addContact($this->tester->getContactBuilder()->create());
     }
 
     public function testRemove(): void
     {
-        $user = (new \Helper\UserBuilder())->create();
+        $user = $this->tester->getUserBuilder()->create();
 
-        $user->addContact($contact = $this->contactBuilder->create());
-        $user->addContact($this->contactBuilder->withType(ContactTypes::TYPE_PHONE)->withValue('+781')->create());
+        $user->addContact($contact = $this->tester->getContactBuilder()->create());
+        $user->addContact($this->tester->getContactBuilder()->withType(ContactTypes::TYPE_PHONE)->withValue('+781')->create());
         $user->removeContact(1);
         expect('После удаления осталя 1 контакт', $user->getContacts()->getAll())->count(1);
         expect('Оставшийся контакт - email', $user->getContacts()->getAll())->same([$contact]);
@@ -52,7 +47,7 @@ class ContactsTest extends \Codeception\Test\Unit
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectErrorMessage('Contact with index 111 not found.');
-        $user = (new \Helper\UserBuilder())->create();
+        $user = $this->tester->getUserBuilder()->create();
 
         $user->removeContact(111);
     }

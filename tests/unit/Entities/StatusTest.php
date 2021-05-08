@@ -34,11 +34,12 @@ class StatusTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @param User $user Description
-     * @dataProvider getUsersWithAllPossibleStatuses
+     * * @param int $value Description
+     * @dataProvider getAllExisting
      */
-    public function testConfirmation($user)
+    public function testConfirmation($value)
     {
+        $user = $this->tester->getUserBuilder()->withStatus($value)->create();
         if(!$user->isConfirmed())
         {
             $user->confirm();
@@ -55,11 +56,12 @@ class StatusTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @param User $user Description
-     * @dataProvider getUsersWithAllPossibleStatuses
+     * @param int $value Description
+     * @dataProvider getAllExisting
      */
-    public function testSuspending($user)
+    public function testSuspending($value)
     {
+        $user = $this->tester->getUserBuilder()->withStatus($value)->create();
         if($user->isActive())
         {
             $user->suspend();
@@ -76,11 +78,12 @@ class StatusTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @param User $user Description
-     * @dataProvider getUsersWithAllPossibleStatuses
+     * @param int $value Description
+     * @dataProvider getAllExisting
      */
-    public function testArchivation($user)
+    public function testArchivation($value)
     {
+        $user = $this->tester->getUserBuilder()->withStatus($value)->create();
         switch ($user->getStatus()->getValue())
         {
             case UserStatuses::SUSPENDED:
@@ -113,18 +116,6 @@ class StatusTest extends \Codeception\Test\Unit
             $dataProvider["{$value} - {$text}"] = ['value' => $value, 'text' => $text];
         }
         return $dataProvider;
-    }
-
-    public function getUsersWithAllPossibleStatuses()
-    {
-        return array_map(fn($status) => ['user' => (new \Helper\UserBuilder())->withStatus($status)->create()],
-                [
-                    UserStatuses::UNCONFIRMED,
-                    UserStatuses::ACTIVE,
-                    UserStatuses::SUSPENDED,
-                    UserStatuses::ARCHIVED
-                ]
-        );
     }
 
 }

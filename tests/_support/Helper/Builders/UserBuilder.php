@@ -1,8 +1,9 @@
 <?php
 
-namespace Helper;
+namespace Helper\Builders;
 
-use RobotE13\UserAccount\Services\PasswordService;
+use League\Tactician\CommandBus;
+use RobotE13\UserAccount\Services\Security\PasswordCreate\PasswordCreate;
 use RobotE13\UserAccount\Entities\{
     Id,
     User,
@@ -20,17 +21,23 @@ class UserBuilder
 
     const DEFAULT_PASSWORD = 'Asd5%_password';
 
+    /**
+     * @var CommandBus
+     */
+    private $commandBus;
     private $uuid;
     private $registrationEmail;
     private $password;
     private $status;
+
     //private $registeredOn;
 
-    public function __construct()
+    public function __construct(CommandBus $commandBus)
     {
+        $this->commandBus = $commandBus;
         $this->uuid = new Id();
         $this->registrationEmail = 'user1@usermail.com';
-        $this->password = (new PasswordService())->create(self::DEFAULT_PASSWORD);
+        $this->password = $this->commandBus->handle(new PasswordCreate(self::DEFAULT_PASSWORD));
         $this->status = UserStatuses::UNCONFIRMED;
     }
 
@@ -39,10 +46,9 @@ class UserBuilder
      * @param Id|null $uid
      * @return $this
      */
-    public function withUid($uid)
+    public function withUid($uid): self
     {
-        $this->uuid = $uid;
-        return $this;
+        return $this->getClone('uuid', $uid);
     }
 
     /**
@@ -50,21 +56,19 @@ class UserBuilder
      * @param Id|null $uid
      * @return $this
      */
-    public function withEmail($email)
+    public function withEmail($email):self
     {
-        $this->registrationEmail = $email;
-        return $this;
+        return $this->getClone('registrationEmail', $email);
     }
 
     /**
      * Создать пользователя с определенным статусом.
      * @param int $status
-     * @return $this
+     * @return self
      */
-    public function withStatus(int $status)
+    public function withStatus(int $status):self
     {
-        $this->status = $status;
-        return $this;
+        return $this->getClone('status', $status);
     }
 
     public function create(): User
@@ -77,6 +81,13 @@ class UserBuilder
         );
 
         return $user;
+    }
+
+    private function getClone($attribute, $value): self
+    {
+        $clone = clone $this;
+        $clone->{$attribute} = $value;
+        return $clone;
     }
 
 }
