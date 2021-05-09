@@ -10,7 +10,7 @@
  * @package user-account
  */
 
-namespace Helper\Builders;
+namespace Builders;
 
 use RobotE13\UserAccount\Entities\Contact\{
     Contact,

@@ -10,7 +10,7 @@
  * @package user-account
  */
 
-namespace Helper;
+namespace RobotE13\UserAccount\Tests\Module;
 
 use RobotE13\UserAccount\Services\Security\PasswordCreate\PasswordComplexityChecker;
 use League\Container\Container;
@@ -20,11 +20,11 @@ use League\Container\Definition\{
 };
 
 /**
- * Description of Common
+ * Services
  *
  * @author Evgenii Dudal <wolfstrace@gmail.com>
  */
-class ServiceLocator extends \Codeception\Module
+class ServiceLocator
 {
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Helper\Builders;
+namespace Builders;
 
 use League\Tactician\CommandBus;
 use RobotE13\DDD\Entities\Uuid\Id;
@@ -83,6 +83,12 @@ class UserBuilder
         return $user;
     }
 
+    /**
+     *
+     * @param string $attribute
+     * @param mixed $value
+     * @return \self
+     */
     private function getClone($attribute, $value): self
     {
         $clone = clone $this;

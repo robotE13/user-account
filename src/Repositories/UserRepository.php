@@ -20,16 +20,37 @@ use RobotE13\UserAccount\Entities\User;
  */
 interface UserRepository
 {
+
     /**
-     *
-     * @param type $id
+     * @param string $uid
      * @return User
      * @throws NotFoundException
      */
-    public function findById($id):User;
-    public function findByEmail($email):User;
+    public function findById($uid): User;
 
-    public function add(User $user);
-    public function update(User $user);
-    public function remove($id);
+    /**
+     * @param string $email
+     * @return User
+     * @throws NotFoundException
+     */
+    public function findByEmail($email): User;
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function add(User $user): void;
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function update(User $user): void;
+
+    /**
+     * @param string $uid UUID of the user being removed
+     * @return void
+     * @throws NotFoundException
+     */
+    public function remove($uid): void;
 }

@@ -40,5 +40,10 @@
             "RobotE13\\UserAccount\\": "src"
         },
         "files": ["src/functions.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RobotE13\\UserAccount\\Tests\\": "tests/_support"
+        }
     }
 }

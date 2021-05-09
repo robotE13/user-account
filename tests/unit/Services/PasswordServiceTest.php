@@ -91,7 +91,7 @@ class PasswordServiceTest extends \Codeception\Test\Unit
     public function testExcludeLengthRule()
     {
         /**
-         * @todo Возможно нужно как то получать извне правила валидации в сущности пароля
+         * @todo Возможно нужно как то получать извне заданные правила валидации (например для форм)
          */
         $this->markTestSkipped('Может быть он теперь вообще не нужен, так как сложность пароля задается один раз для вего проекта в конфигурации командной шины');
 //        \Helper\ServiceLocator::getContainer()->add(\RobotE13\UserAccount\Services\Security\PasswordCreate\PasswordComplexityChecker::class)->addArgument([

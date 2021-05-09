@@ -2,7 +2,7 @@
 
 namespace tests\unit\Entities;
 
-use Helper\Builders\UserBuilder;
+use Builders\UserBuilder;
 use RobotE13\DDD\Entities\Uuid\Id;
 
 class UserTest extends \Codeception\Test\Unit
