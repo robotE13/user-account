@@ -25,7 +25,8 @@ class PasswordServiceTest extends \Codeception\Test\Unit
         $command = new PasswordFromHash('plain_text');
         expect('Trying to create a password object when plain text given instead hash',
                         fn() => $this->tester->getCommandBus()->handle($command))
-                ->throws(\InvalidArgumentException::class);
+                //now Webmozart asserts throws ownn InvalidArgument that extended PHP Platform \InvalidArgument exception
+                ->throws(\Webmozart\Assert\InvalidArgumentException::class);
     }
 
     public function testCreatePasswordHash()
@@ -100,7 +101,6 @@ class PasswordServiceTest extends \Codeception\Test\Unit
 //            'uppercaseRequired' => ['match', 'condition' => '/[A-Z]+/u', 'message' => 'The password must contain at least one uppercase character.'],
 //            'specialOrDigitRequired' => ['match', 'condition' => '/[\d\W_]+/u', 'message' => 'The password must contain at least one digit or special character.']
 //        ]);
-
 //        expect('В дочернем классе сервиса, пароль короче 8 символов пройдет проверку сложности и хеш пароля будет создан.',
 //                        $this->tester->getCommandBus()->handle(new PasswordCreate('Zzzz1')))
 //                ->isInstanceOf(Password::class);

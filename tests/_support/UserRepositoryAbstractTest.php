@@ -89,7 +89,7 @@ abstract class UserRepositoryAbstractTest extends \Codeception\Test\Unit
                         ->getUid()
                         ->isEqualTo($id))
                 ->true();
-        
+
         $this->repository->remove($user->getUid()->getString());
 
         expect('Not found', fn() => $this->repository->findById($id->getString()))

@@ -18,13 +18,13 @@ class ContactsTest extends \Codeception\Test\Unit
         $user = $this->tester->getUserBuilder()->create();
         $user->addContact($this->tester->getContactBuilder()->create());
 
-        expect('Добавлен 1 контакт', $user->getContacts()->getAll())->count(1);
+        expect('Добавлен 1 контакт', count($user->getContacts()))->equals(1);
     }
 
     public function testCannotAddExisting(): void
     {
-        $this->expectException(\DomainException::class);
-        $this->expectErrorMessage('Contact already exists.');
+        $this->expectException(\InvalidArgumentException::class);
+//        $this->expectErrorMessage('Contact already exists.');
 
         $user = $this->tester->getUserBuilder()->create();
 
@@ -39,17 +39,15 @@ class ContactsTest extends \Codeception\Test\Unit
         $user->addContact($contact = $this->tester->getContactBuilder()->create());
         $user->addContact($this->tester->getContactBuilder()->withType(ContactTypes::TYPE_PHONE)->withValue('+781')->create());
         $user->removeContact(1);
-        expect('После удаления осталя 1 контакт', $user->getContacts()->getAll())->count(1);
-        expect('Оставшийся контакт - email', $user->getContacts()->getAll())->same([$contact]);
+        expect('После удаления осталя 1 контакт', count($user->getContacts()))->equals(1);
+        expect('Оставшийся контакт - email', $user->getContacts()->toArray())->same([$contact]);
     }
 
     public function testRemoveNotExist(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectErrorMessage('Contact with index 111 not found.');
         $user = $this->tester->getUserBuilder()->create();
 
-        $user->removeContact(111);
+        expect('', fn() => $user->removeContact(111))->throws(\Webmozart\Assert\InvalidArgumentException::class, 'Contact with key `111` not present in collection.');
     }
 
 }
