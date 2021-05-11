@@ -35,15 +35,34 @@ use RobotE13\UserAccount\Entities\Contact\{
 class User
 {
 
+    /**
+     * @var Id
+     */
     private $uid;
+
+    /**
+     * @var string
+     */
     private $registrationEmail;
+
+    /**
+     * @var Password
+     */
     private $password;
+
+    /**
+     * @var Status
+     */
     private $status;
 
     /**
      * @var ContactsCollection
      */
     private $contacts;
+
+    /**
+     * @var \DateTimeImmutable
+     */
     private $registeredOn;
 
     /**
@@ -80,7 +99,7 @@ class User
     public function __call($name, $arguments)
     {
         $status = $this->getStatus();
-        $isGetter = strpos($name,'get') === 0;
+        $isGetter = strpos($name, 'get') === 0;
         if(!$isGetter && method_exists($status, $name))
         {
             return $status->$name();

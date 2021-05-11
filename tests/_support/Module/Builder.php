@@ -12,6 +12,7 @@
 
 namespace RobotE13\UserAccount\Tests\Module;
 
+use RobotE13\UserAccount\ServiceLocator;
 use RobotE13\UserAccount\Services\Security\PasswordCreate\PasswordComplexityChecker;
 use Builders\{
     UserBuilder,
@@ -50,11 +51,12 @@ class Builder extends \Codeception\Module
 
     public function _beforeSuite($settings = array())
     {
+        $container = ServiceLocator::getInstance()->getContainer();
         $this->commandBus = new \League\Tactician\CommandBus([
-            ServiceLocator::createObject(PasswordComplexityChecker::class),
+            $container->get(PasswordComplexityChecker::class),
             new CommandHandlerMiddleware(
                     new ClassNameExtractor(),
-                    new CallableLocator(fn($commandName) => ServiceLocator::createObject("{$commandName}Handler", true)),
+                    new CallableLocator(fn($commandName) => $container->get("{$commandName}Handler")),
                     new HandleInflector()
             )
         ]);
