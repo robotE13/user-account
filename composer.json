@@ -16,6 +16,7 @@
         "ramsey/uuid": "^4.0.1",
         "samdark/hydrator": "^1.0.4",
         "league/tactician": "^1.0.3",
+        "league/container": "^3.3.4",
         "robote13/ddd-common": "^0.1.0"
     },
     "require-dev": {
@@ -24,7 +25,6 @@
         "codeception/module-asserts": "^1.0.0",
         "codeception/verify": "^1.3.0",
         "codeception/specify": "^1.3.0",
-        "league/container": "^3.3.4",
         "league/tactician-container": "^2.0"
     },
     "scripts": {
