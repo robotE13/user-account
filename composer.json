@@ -15,8 +15,8 @@
         "webmozart/assert": "^1.7.0",
         "ramsey/uuid": "^4.0.1",
         "samdark/hydrator": "^1.0.4",
-        "league/tactician": "^1.0.3",
         "league/container": "^3.3.4",
+        "league/tactician": "^1.0.3",
         "robote13/ddd-common": "^0.1.0"
     },
     "require-dev": {
