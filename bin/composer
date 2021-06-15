@@ -1,3 +1,9 @@
 #!/bin/bash
 
-docker run -it --rm -v ${PWD}/:/usr/src/project robote13/php-library-dev composer $@
+docker run -it --rm -v /${PWD}://usr/src/project robote13/php-library-dev composer $@ 2> /dev/null
+if [ $? -eq 0 ]
+then
+    exit 0
+else
+    docker run -i --rm -v /${PWD}://usr/src/project robote13/php-library-dev composer $@
+fi
