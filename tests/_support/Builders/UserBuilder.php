@@ -1,6 +1,6 @@
 <?php
 
-namespace Builders;
+namespace RobotE13\UserAccount\Tests\Builders;
 
 use League\Tactician\CommandBus;
 use RobotE13\DDD\Entities\Uuid\Id;

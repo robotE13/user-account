@@ -2,7 +2,7 @@
 
 namespace tests\unit\Entities;
 
-use Builders\UserBuilder;
+use RobotE13\UserAccount\Tests\Builders\UserBuilder;
 use RobotE13\UserAccount\Services\Security\PasswordCreate\PasswordCreate;
 use RobotE13\UserAccount\Entities\{
     User,

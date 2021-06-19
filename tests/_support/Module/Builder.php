@@ -14,9 +14,9 @@ namespace RobotE13\UserAccount\Tests\Module;
 
 use RobotE13\UserAccount\ServiceLocator;
 use RobotE13\UserAccount\Services\Security\PasswordCreate\PasswordComplexityChecker;
-use Builders\{
-    UserBuilder,
-    ContactBuilder
+use RobotE13\UserAccount\Tests\Builders\{
+    ContactBuilder,
+    UserBuilder
 };
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\{
@@ -76,7 +76,7 @@ class Builder extends \Codeception\Module
 
     /**
      *
-     * @return \Builders\UserBuilder
+     * @return RobotE13\UserAccount\Tests\Builders\UserBuilder
      */
     public function getUserBuilder(): UserBuilder
     {
@@ -85,7 +85,7 @@ class Builder extends \Codeception\Module
 
     /**
      *
-     * @return \Builders\ContactBuilder
+     * @return RobotE13\UserAccount\Tests\Builders\ContactBuilder
      */
     public function getContactBuilder(): ContactBuilder
     {

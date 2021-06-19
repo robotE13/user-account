@@ -2,8 +2,8 @@
 
 namespace RobotE13\UserAccount\Tests;
 
-use Builders\UserBuilder;
 use RobotE13\DDD\Entities\Uuid\Id;
+use RobotE13\UserAccount\Tests\Builders\UserBuilder;
 use RobotE13\UserAccount\Repositories\{
     UserRepository,
     NotFoundException
