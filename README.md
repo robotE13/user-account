@@ -1,5 +1,8 @@
 # User account
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/robotE13/user-account/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/robotE13/user-account/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/robotE13/user-account/badges/build.png?b=master)](https://scrutinizer-ci.com/g/robotE13/user-account/build-status/master)
+
 ## Codeception tests
 
 First install composer dependencies. Run `bin/composer install --prefer-dist`.
