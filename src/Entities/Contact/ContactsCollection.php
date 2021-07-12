@@ -20,11 +20,15 @@ namespace RobotE13\UserAccount\Entities\Contact;
 class ContactsCollection extends \RobotE13\DDD\Entities\Collection\AbstractCollection
 {
 
-    const COLLECTION_ITEM_NAME = 'Contact';
 
     public function getItemClass(): string
     {
         return Contact::class;
+    }
+
+    public static function getItemName(): string
+    {
+        return 'Contact';
     }
 
 }

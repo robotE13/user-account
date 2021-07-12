@@ -17,7 +17,7 @@
         "samdark/hydrator": "^1.0.4",
         "league/container": "^3.3.4",
         "league/tactician": "^1.0.3",
-        "robote13/ddd-common": "^0.2.0"
+        "robote13/ddd-common": "^0.3.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.1",

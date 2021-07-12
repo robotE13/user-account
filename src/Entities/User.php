@@ -147,7 +147,7 @@ class User
 
     /**
      * Удаление контакта.
-     * @param type $index
+     * @param mixed $index
      */
     public function removeContact($index)
     {

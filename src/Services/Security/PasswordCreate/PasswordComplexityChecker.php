@@ -35,8 +35,8 @@ class PasswordComplexityChecker implements \League\Tactician\Middleware
      */
     public function __construct($rules)
     {
-        $this->complexityChecker = \RobotE13\UserAccount\reduce(
-                fn($nextCall, $rule) => \RobotE13\UserAccount\createValidator($rule, $nextCall),
+        $this->complexityChecker = \RobotE13\UserAccount\Functions\reduce(
+                fn($nextCall, $rule) => \RobotE13\UserAccount\Functions\createValidator($rule, $nextCall),
                 array_reverse($rules),
                 null
         );

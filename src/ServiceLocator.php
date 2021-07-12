@@ -44,10 +44,10 @@ class ServiceLocator
     {
         $definitions = [
             (new Definition(PasswordComplexityChecker::class))->addArgument([
-                'onlyLatin' => ['match', 'condition' => '/^[A-Za-z\d\W_]+$/u', 'message' => 'Only latin letters, numbers, and special characters are allowed.'],
+                'onlyLatin' => ['matchRegular', 'condition' => '/^[A-Za-z\d\W_]+$/u', 'message' => 'Only latin letters, numbers, and special characters are allowed.'],
                 'length' => ['lengthGreaterThan', 'condition' => 8, 'message' => 'The password must be at least 8 characters long.'],
-                'uppercaseRequired' => ['match', 'condition' => '/[A-Z]+/u', 'message' => 'The password must contain at least one uppercase character.'],
-                'specialOrDigitRequired' => ['match', 'condition' => '/[\d\W_]+/u', 'message' => 'The password must contain at least one digit or special character.']
+                'uppercaseRequired' => ['matchRegular', 'condition' => '/[A-Z]+/u', 'message' => 'The password must contain at least one uppercase character.'],
+                'specialOrDigitRequired' => ['matchRegular', 'condition' => '/[\d\W_]+/u', 'message' => 'The password must contain at least one digit or special character.']
             ])
         ];
         $this->container = new Container(new DefinitionAggregate($definitions));
@@ -55,7 +55,7 @@ class ServiceLocator
     }
 
     /**
-     * @return \self
+     * @return self
      */
     public static function getInstance(): self
     {

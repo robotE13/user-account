@@ -10,8 +10,9 @@
  * @package user-account
  */
 
-namespace RobotE13\UserAccount;
+namespace RobotE13\UserAccount\Functions;
 
+use RobotE13\UserAccount\Entities;
 
 /**
  * Wrapper over array_reduce function.
@@ -33,10 +34,10 @@ function reduce(callable $callback, $items, $initial = null)
  * @param callable|null $next
  * @return callable цепочку функций-валидаторов пароля
  */
-function createValidator($description, $next = null):callable
+function createValidator($description, $next = null): callable
 {
     return function($password) use ($description, $next) {
-        $functionName = function_exists($description[0]) ? $description[0] : "RobotE13\\UserAccount\\{$description[0]}";
+        $functionName = function_exists($description[0]) ? $description[0] : "RobotE13\\UserAccount\\Functions\\{$description[0]}";
         return !$functionName($password, $description['condition']) ?
                 new Entities\CheckResult(false, $description['message']) :
                 (is_callable($next) ? $next($password) : new Entities\CheckResult(true));
@@ -53,7 +54,7 @@ function lengthGreaterThan(string $string, int $length): bool
     return strlen($string) > $length;
 }
 
-function match($subject, $pattern)
+function matchRegular($subject, $pattern)
 {
-    return preg_match($pattern, $subject);
+    return \preg_match($pattern, $subject);
 }
