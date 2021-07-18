@@ -12,6 +12,8 @@
 
 namespace RobotE13\UserAccount\Services\User\Create;
 
+use RobotE13\UserAccount\Entities\Password;
+
 /**
  * Description of SignUp
  *
@@ -19,6 +21,31 @@ namespace RobotE13\UserAccount\Services\User\Create;
  */
 class UserCreate
 {
-    public $password;
+
+    /**
+     * @var Password
+     */
+    private $password;
+
+    /**
+     * @var string
+     */
     public $email;
+
+    public function __construct(Password $password, string $email)
+    {
+        $this->password = $password;
+        $this->email = $email;
+    }
+
+    public function getPassword(): Password
+    {
+        return $this->password;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
 }

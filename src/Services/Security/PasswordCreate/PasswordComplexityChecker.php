@@ -12,6 +12,8 @@
 
 namespace RobotE13\UserAccount\Services\Security\PasswordCreate;
 
+use RobotE13\UserAccount\Functions;
+
 /**
  * PasswordValidator.
  * Checks the complexity of the password.
@@ -35,8 +37,8 @@ class PasswordComplexityChecker implements \League\Tactician\Middleware
      */
     public function __construct($rules)
     {
-        $this->complexityChecker = \RobotE13\UserAccount\Functions\reduce(
-                fn($nextCall, $rule) => \RobotE13\UserAccount\Functions\createValidator($rule, $nextCall),
+        $this->complexityChecker = Functions\reduce(
+                fn($nextCall, $rule) => Functions\createValidator($rule, $nextCall),
                 array_reverse($rules),
                 null
         );

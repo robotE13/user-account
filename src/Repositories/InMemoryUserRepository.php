@@ -25,16 +25,16 @@ class InMemoryUserRepository implements UserRepository
     /**
      * @var User[]
      */
-    private $items = [];
+    private static $items = [];
 
     public function add(User $user): void
     {
-        $this->items[$user->getUid()->getString()] = $user;
+        static::$items[$user->getUid()->getString()] = $user;
     }
 
     public function findByEmail($email): User
     {
-        foreach ($this->items as $user)
+        foreach (static::$items as $user)
         {
             if($user->getRegistrationEmail() === $email)
             {
@@ -46,17 +46,17 @@ class InMemoryUserRepository implements UserRepository
 
     public function findById($uid): User
     {
-        if(!isset($this->items[$uid]))
+        if(!isset(static::$items[$uid]))
         {
             throw new NotFoundException('User not found.');
         }
-        return clone $this->items[$uid];
+        return clone static::$items[$uid];
     }
 
     public function remove($uid): void
     {
         $this->findById($uid);
-        unset($this->items[$uid]);
+        unset(static::$items[$uid]);
     }
 
     public function update(User $user): void

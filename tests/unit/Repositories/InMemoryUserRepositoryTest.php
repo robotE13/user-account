@@ -31,6 +31,6 @@ class InMemoryUserRepositoryTest extends UserRepositoryAbstractTest
     protected function _before()
     {
         parent::_before();
-        $this->repository = new \RobotE13\UserAccount\Repositories\InMemoryUserRepository();
+        $this->repository = new InMemoryUserRepository();
     }
 }

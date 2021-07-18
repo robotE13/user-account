@@ -39,9 +39,9 @@ class UserCreateHandler
     public function handle(UserCreate $command)
     {
         $user = new User(
-                new Id(),
-                $command->email,
-                new Password($command->password),
+                Id::next(),
+                $command->getEmail(),
+                $command->getPassword(),
                 new Status(
                         UserStatuses::UNCONFIRMED,
                         new UserStatuses()
@@ -50,4 +50,5 @@ class UserCreateHandler
         $this->users->add($user);
         return $user;
     }
+
 }
